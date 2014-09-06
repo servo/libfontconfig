@@ -1,0 +1,13 @@
+Makefile
+config.h
+config.log
+config.status
+.deps
+doc/version.sgml
+*.bz2
+*.gz
+fontconfig-zip
+fontconfig.pc
+libtool
+stamp-h1
+src/fcstdint.h
