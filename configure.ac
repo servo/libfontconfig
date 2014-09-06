@@ -36,6 +36,7 @@ dnl not possible to extract the version number here from fontconfig.h
 AC_INIT([fontconfig], [2.11.1], [https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig])
 AM_INIT_AUTOMAKE([1.11 parallel-tests dist-bzip2])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+AM_MAINTAINER_MODE([disable])
 
 dnl ==========================================================================
 

@@ -2,6 +2,8 @@ Makefile
 config.h
 config.log
 config.status
+autom4te.cache
+config.h.in~
 .deps
 doc/version.sgml
 *.bz2
@@ -11,3 +13,5 @@ fontconfig.pc
 libtool
 stamp-h1
 src/fcstdint.h
+/Cargo.lock
+/target
