@@ -1,0 +1,70 @@
+ifeq (androideabi,$(findstring androideabi,$(TARGET)))
+
+CC := $(TARGET)-gcc
+AR := $(TARGET)-ar
+
+CONFIGURE_FLAGS := \
+    --host=$(TARGET) \
+    --with-default-fonts=/system/fonts \
+    --with-sysroot=$(ANDROID_TOOLCHAIN)/sysroot \
+    --with-cache-dir=/sdcard/servo/.fccache \
+    $(NULL)
+
+else
+
+CC ?= gcc
+AR ?= ar
+
+CONFIGURE_FLAGS := \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    $(NULL)
+
+endif
+
+ifneq (darwin,$(findstring darwin,$(TARGET)))
+
+SRC_DIR = $(shell pwd)
+
+all: $(OUT_DIR)/libfontconfig.a
+
+$(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
+	cd $(OUT_DIR) && make -j4
+	cp $(OUT_DIR)/src/.libs/libfontconfig.a $(OUT_DIR)
+
+EXPAT_OUTDIR = $(shell find $(OUT_DIR)/.. -name 'expat-sys-*' -type d)
+FREETYPE_OUTDIR = $(shell find $(OUT_DIR)/.. -name 'freetype-sys-*' -type d)
+
+ifeq (androideabi,$(findstring androideabi,$(TARGET)))
+
+EXPAT_FLAGS = --with-expat-includes=$(EXPAT_OUTDIR)/include \
+              --with-expat-lib=$(EXPAT_OUTDIR)
+FREETYPE_CFLAGS = "-I$(FREETYPE_OUTDIR)/include"
+FREETYPE_LIBS = "-L$(FREETYPE_OUTDIR) -lfreetype"
+
+else
+
+EXPAT_FLAGS =
+FREETYPE_CFLAGS =
+FREETYPE_LIBS =
+
+endif
+
+$(OUT_DIR)/Makefile:
+	cd $(OUT_DIR) && \
+		CC=$(CC) \
+		AR=$(AR) \
+		FREETYPE_CFLAGS="$(FREETYPE_CFLAGS)" \
+		FREETYPE_LIBS="$(FREETYPE_LIBS)" \
+		CFLAGS="-fPIC" \
+		$(SRC_DIR)/configure \
+		--disable-docs \
+		--disable-shared \
+		$(EXPAT_FLAGS) \
+		$(strip $(CONFIGURE_FLAGS))
+
+else
+
+all:
+
+endif
