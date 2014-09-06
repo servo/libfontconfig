@@ -1314,52 +1314,7 @@ FcParseInt (FcConfigParse *parse)
 static double
 FcStrtod (char *s, char **end)
 {
-    struct lconv    *locale_data;
-    char	    *dot;
-    double	    v;
-
-    /*
-     * Have to swap the decimal point to match the current locale
-     * if that locale doesn't use 0x2e
-     */
-    if ((dot = strchr (s, 0x2e)) &&
-	(locale_data = localeconv ()) &&
-	(locale_data->decimal_point[0] != 0x2e ||
-	 locale_data->decimal_point[1] != 0))
-    {
-	char	buf[128];
-	int	slen = strlen (s);
-	int	dlen = strlen (locale_data->decimal_point);
-	
-	if (slen + dlen > (int) sizeof (buf))
-	{
-	    if (end)
-		*end = s;
-	    v = 0;
-	}
-	else
-	{
-	    char	*buf_end;
-	    /* mantissa */
-	    strncpy (buf, s, dot - s);
-	    /* decimal point */
-	    strcpy (buf + (dot - s), locale_data->decimal_point);
-	    /* rest of number */
-	    strcpy (buf + (dot - s) + dlen, dot + 1);
-	    buf_end = 0;
-	    v = strtod (buf, &buf_end);
-	    if (buf_end) {
-		buf_end = s + (buf_end - buf);
-		if (buf_end > dot)
-		    buf_end -= dlen - 1;
-	    }
-	    if (end)
-		*end = buf_end;
-	}
-    }
-    else
-	v = strtod (s, end);
-    return v;
+    return strtod (s, end);
 }
 
 static void
