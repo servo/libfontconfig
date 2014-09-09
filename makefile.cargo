@@ -39,8 +39,8 @@ ifeq (androideabi,$(findstring androideabi,$(TARGET)))
 
 EXPAT_FLAGS = --with-expat-includes=$(EXPAT_OUTDIR)/include \
               --with-expat-lib=$(EXPAT_OUTDIR)
-FREETYPE_CFLAGS = "-I$(FREETYPE_OUTDIR)/include"
-FREETYPE_LIBS = "-L$(FREETYPE_OUTDIR) -lfreetype"
+FREETYPE_CFLAGS = -I$(FREETYPE_OUTDIR)/include
+FREETYPE_LIBS = -L$(FREETYPE_OUTDIR) -lfreetype
 
 else
 
