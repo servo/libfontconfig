@@ -52,8 +52,8 @@ endif
 
 $(OUT_DIR)/Makefile:
 	cd $(OUT_DIR) && \
-		CC=$(CC) \
-		AR=$(AR) \
+		CC="$(CC)" \
+		AR="$(AR)" \
 		FREETYPE_CFLAGS="$(FREETYPE_CFLAGS)" \
 		FREETYPE_LIBS="$(FREETYPE_LIBS)" \
 		CFLAGS="-fPIC" \
