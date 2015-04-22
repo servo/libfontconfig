@@ -6,7 +6,7 @@ authors = ["Keith Packard <keithp@keithp.com>", "Patrick Lam <plam@mit.edu>"]
 build = "build.rs"
 
 [lib]
-name = "fontconfig-sys"
+name = "fontconfig_sys"
 path = "lib.rs"
 
 [dependencies.expat-sys]
