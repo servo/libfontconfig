@@ -32,13 +32,10 @@ $(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
 	cd $(OUT_DIR) && make -j4
 	cp $(OUT_DIR)/src/.libs/libfontconfig.a $(OUT_DIR)
 
-EXPAT_OUTDIR = $(shell find $(OUT_DIR)/../.. -name 'expat-sys-*' -type d)/out
-FREETYPE_OUTDIR = $(shell find $(OUT_DIR)/../.. -name 'freetype-sys-*' -type d)/out
-
 ifeq (androideabi,$(findstring androideabi,$(TARGET)))
 
-EXPAT_FLAGS = --with-expat-includes=$(EXPAT_OUTDIR)/include \
-              --with-expat-lib=$(EXPAT_OUTDIR)
+EXPAT_FLAGS = --with-expat-includes="$(DEP_EXPAT_OUTDIR)/include" \
+              --with-expat-lib="$(DEP_EXPAT_OUTDIR)"
 FREETYPE_CFLAGS = -I$(FREETYPE_OUTDIR)/include
 FREETYPE_LIBS = -L$(FREETYPE_OUTDIR) -lfreetype
 
