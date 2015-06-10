@@ -1,14 +1,20 @@
-ifeq (androideabi,$(findstring androideabi,$(TARGET)))
+ifeq (eabi,$(findstring eabi,$(TARGET)))
 
 CC := $(TARGET)-gcc
 AR := $(TARGET)-ar
 
 CONFIGURE_FLAGS := \
-    --host=$(TARGET) \
-    --with-default-fonts=/system/fonts \
-    --with-sysroot=$(ANDROID_TOOLCHAIN)/sysroot \
-    --with-cache-dir=/sdcard/servo/.fccache \
-    $(NULL)
+    --host=$(TARGET)
+
+    ifeq (androideabi,$(findstring androideabi,$(TARGET)))
+
+    CONFIGURE_FLAGS += \
+        --with-default-fonts=/system/fonts \
+        --with-sysroot=$(ANDROID_TOOLCHAIN)/sysroot \
+        --with-cache-dir=/sdcard/servo/.fccache \
+        $(NULL)
+
+    endif
 
 else
 
