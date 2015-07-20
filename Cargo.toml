@@ -13,4 +13,5 @@ path = "lib.rs"
 git = "https://github.com/servo/libexpat"
 
 [dependencies.freetype-sys]
-version = "0.1"
+git = "https://github.com/servo/libfreetype2"
+
