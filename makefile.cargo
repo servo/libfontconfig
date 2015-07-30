@@ -21,7 +21,11 @@ else
 CC ?= gcc
 AR ?= ar
 
-CONFIGURE_FLAGS := \
+endif
+
+ifneq (android,$(findstring android,$(TARGET)))
+
+CONFIGURE_FLAGS += \
     --sysconfdir=/etc \
     --localstatedir=/var \
     $(NULL)
@@ -38,7 +42,7 @@ $(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
 	cd $(OUT_DIR) && make -j4
 	cp $(OUT_DIR)/src/.libs/libfontconfig.a $(OUT_DIR)
 
-ifeq (androideabi,$(findstring androideabi,$(TARGET)))
+ifeq (eabi,$(findstring eabi,$(TARGET)))
 
 EXPAT_FLAGS = --with-expat-includes="$(DEP_EXPAT_OUTDIR)/include" \
               --with-expat-lib="$(DEP_EXPAT_OUTDIR)"
