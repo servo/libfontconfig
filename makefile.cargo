@@ -39,7 +39,7 @@ SRC_DIR = $(shell pwd)
 all: $(OUT_DIR)/libfontconfig.a
 
 $(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
-	cd $(OUT_DIR) && make -j4
+	cd $(OUT_DIR) && make -j$(NUM_JOBS)
 	cp $(OUT_DIR)/src/.libs/libfontconfig.a $(OUT_DIR)
 
 ifeq (eabi,$(findstring eabi,$(TARGET)))
