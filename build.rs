@@ -12,5 +12,6 @@ fn main() {
         .status()
         .unwrap()
         .success());
-    println!("cargo:rustc-flags=-L native={}", env::var("OUT_DIR").unwrap());
+    println!("cargo:rustc-link-search=native={}", env::var("OUT_DIR").unwrap());
+    println!("cargo:rustc-link-lib=static=fontconfig");
 }
