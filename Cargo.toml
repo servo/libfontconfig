@@ -9,9 +9,6 @@ build = "build.rs"
 name = "fontconfig_sys"
 path = "lib.rs"
 
-[dependencies.expat-sys]
-git = "https://github.com/servo/libexpat"
-
-[dependencies.freetype-sys]
-git = "https://github.com/servo/libfreetype2"
-
+[dependencies]
+expat-sys = { git = "https://github.com/servo/libexpat" }
+freetype-sys = { git = "https://github.com/servo/libfreetype2" }
