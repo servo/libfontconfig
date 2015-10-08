@@ -1,4 +1,4 @@
-ifeq (eabi,$(findstring eabi,$(TARGET)))
+ifneq ($(HOST),$(TARGET))
 
 CC ?= $(TARGET)-gcc
 AR ?= $(TARGET)-ar
@@ -42,7 +42,7 @@ $(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
 	cd $(OUT_DIR) && make -j$(NUM_JOBS)
 	cp $(OUT_DIR)/src/.libs/libfontconfig.a $(OUT_DIR)
 
-ifeq (eabi,$(findstring eabi,$(TARGET)))
+ifneq ($(HOST),$(TARGET))
 
 EXPAT_FLAGS = --with-expat-includes="$(DEP_EXPAT_OUTDIR)/include" \
               --with-expat-lib="$(DEP_EXPAT_OUTDIR)"
