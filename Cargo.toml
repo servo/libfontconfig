@@ -1,7 +1,11 @@
 [package]
-name = "fontconfig-sys"
-version = "2.11.1"
+name = "servo-fontconfig-sys"
+version = "2.11.2-really.1"
 authors = ["Keith Packard <keithp@keithp.com>", "Patrick Lam <plam@mit.edu>"]
+license = "MIT"
+description = "Font configuration and customization library"
+homepage = "http://fontconfig.org"
+repository = "https://github.com/servo/libfontconfig/"
 
 build = "build.rs"
 
@@ -10,9 +14,8 @@ name = "fontconfig_sys"
 path = "lib.rs"
 
 [dependencies]
-expat-sys = { git = "https://github.com/servo/libexpat" }
-freetype-sys = { git = "https://github.com/servo/libfreetype2" }
+expat-sys = "2.1.0"
+servo-freetype-sys = "2.4.11"
 
 [build-dependencies]
 pkg-config = "0.3"
-
