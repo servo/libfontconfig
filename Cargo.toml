@@ -6,7 +6,7 @@ license = "MIT"
 description = "Font configuration and customization library"
 homepage = "http://fontconfig.org"
 repository = "https://github.com/servo/libfontconfig/"
-
+links = "fontconfig"
 build = "build.rs"
 
 [lib]

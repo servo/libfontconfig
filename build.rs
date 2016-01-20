@@ -9,7 +9,8 @@ use std::env;
 
 fn main() {
     // if the system version of fontconfig is at least 2.11.1, use it
-    if pkg_config::Config::new().atleast_version("2.11.1").find("fontconfig").is_ok() {
+    if let Ok(lib) = pkg_config::Config::new().atleast_version("2.11.1").find("fontconfig") {
+        println!("cargo:incdir={}", lib.include_paths[0].clone().into_os_string().into_string().unwrap());
         return;
     }
 
@@ -20,4 +21,5 @@ fn main() {
         .success());
     println!("cargo:rustc-link-search=native={}", env::var("OUT_DIR").unwrap());
     println!("cargo:rustc-link-lib=static=fontconfig");
+    println!("cargo:incdir={}", env::current_dir().unwrap().into_os_string().into_string().unwrap());
 }
