@@ -23,6 +23,12 @@ AR ?= ar
 
 endif
 
+ifeq ("$(MSYSTEM)","")
+CXXFLAGS += -fPIC
+else
+OUT_DIR := $(shell cygpath "$(OUT_DIR)")
+endif
+
 ifneq (android,$(findstring android,$(TARGET)))
 
 CONFIGURE_FLAGS += \
