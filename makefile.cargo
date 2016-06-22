@@ -51,9 +51,9 @@ $(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
 ifneq ($(HOST),$(TARGET))
 
 EXPAT_FLAGS = --with-expat-includes="$(DEP_EXPAT_OUTDIR)/include" \
-              --with-expat-lib="$(DEP_EXPAT_OUTDIR)"
+              --with-expat-lib="$(DEP_EXPAT_OUTDIR)/lib"
 FREETYPE_CFLAGS = -I$(DEP_FREETYPE_OUTDIR)/include
-FREETYPE_LIBS = -L$(DEP_FREETYPE_OUTDIR) -lfreetype
+FREETYPE_LIBS = -L$(DEP_FREETYPE_OUTDIR)/lib -lfreetype
 
 else
 
