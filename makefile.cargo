@@ -56,7 +56,7 @@ ifneq ($(HOST),$(TARGET))
 
 EXPAT_FLAGS = --with-expat-includes="$(DEP_EXPAT_OUTDIR)/include" \
               --with-expat-lib="$(DEP_EXPAT_OUTDIR)"
-FREETYPE_CFLAGS = -I$(DEP_FREETYPE_OUTDIR)/include
+FREETYPE_CFLAGS = -I$(DEP_FREETYPE_OUTDIR)/include/freetype2
 FREETYPE_LIBS = -L$(DEP_FREETYPE_OUTDIR) -lfreetype
 
 else
