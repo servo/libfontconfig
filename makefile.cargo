@@ -10,7 +10,7 @@ CONFIGURE_FLAGS := \
 
     CONFIGURE_FLAGS += \
         --with-default-fonts=/system/fonts \
-        --with-sysroot=$(ANDROID_TOOLCHAIN)/sysroot \
+        --with-sysroot=$(ANDROID_NDK)/platforms/android-18/arch-arm/ \
         --with-cache-dir=/sdcard/servo/.fccache \
         $(NULL)
 
