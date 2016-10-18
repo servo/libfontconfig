@@ -30,6 +30,7 @@ endif
 
 # On MSVC, no -FPIC
 ifeq (,$(findstring windows-msvc,$(TARGET)))
+CFLAGS += -fPIC
 CXXFLAGS += -fPIC
 endif
 
@@ -73,7 +74,7 @@ $(OUT_DIR)/Makefile:
 		AR="$(AR)" \
 		FREETYPE_CFLAGS="$(FREETYPE_CFLAGS)" \
 		FREETYPE_LIBS="$(FREETYPE_LIBS)" \
-		CFLAGS="-fPIC" \
+		CFLAGS="$(CFLAGS)" \
 		$(SRC_DIR)/configure \
 		--disable-docs \
 		--disable-shared \
