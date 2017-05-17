@@ -1,25 +1,36 @@
-ifneq ($(HOST),$(TARGET))
+FLAGS := ""
 
-CC ?= $(TARGET)-gcc
-AR ?= $(TARGET)-ar
+# On MSVC, no -FPIC
+ifeq (,$(findstring windows-msvc,$(TARGET)))
+  FLAGS += -fPIC
+endif
+
+ifeq (armv7-linux-androideabi,$(TARGET))
+	# Reset TARGET variable because armv7 target name used by Rust is not 
+	# the same as the target name needed for the CXX toolchain.
+	TARGET = arm-linux-androideabi
+	FLAGS += -march=armv7-a -mfpu=neon
+endif
+
+ifneq ($(HOST),$(TARGET))
+  CXX ?= $(TARGET)-g++
+  CC ?= $(TARGET)-gcc
+  AR ?= $(TARGET)-ar
+else
+  CXX ?= g++
+  CC ?= gcc
+  AR ?= ar
+endif
+
 
 CONFIGURE_FLAGS := \
     --host=$(TARGET)
 
-    ifeq (androideabi,$(findstring androideabi,$(TARGET)))
-
+ifeq (android,$(findstring android,$(TARGET)))
     CONFIGURE_FLAGS += \
         --with-default-fonts=/system/fonts \
         --with-cache-dir=/sdcard/servo/.fccache \
         $(NULL)
-
-    endif
-
-else
-
-CC ?= gcc
-AR ?= ar
-
 endif
 
 # Fix up OUT_DIR paths on Windows
@@ -27,11 +38,9 @@ ifeq (windows,$(findstring windows,$(TARGET)))
 OUT_DIR := $(shell cygpath "$(OUT_DIR)")
 endif
 
-# On MSVC, no -FPIC
-ifeq (,$(findstring windows-msvc,$(TARGET)))
-CFLAGS += -fPIC
-CXXFLAGS += -fPIC
-endif
+
+CFLAGS += $(FLAGS)
+CXXFLAGS += $(FLAGS)
 
 ifneq (android,$(findstring android,$(TARGET)))
 
