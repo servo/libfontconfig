@@ -275,7 +275,7 @@ FcObjectTypeLookup (register const char *str, register unsigned int len)
 #line 26 "fcobjshash.gperf"
       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str40,FC_WIDTH_OBJECT},
 #line 47 "fcobjshash.gperf"
-      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str41,FC_CHAR_WIDTH_OBJECT},
+      {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str41,FC_CHARWIDTH_OBJECT},
 #line 48 "fcobjshash.gperf"
       {(int)(long)&((struct FcObjectTypeNamePool_t *)0)->FcObjectTypeNamePool_str42,FC_CHAR_HEIGHT_OBJECT},
 #line 44 "fcobjshash.gperf"
