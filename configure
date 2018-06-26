@@ -1894,9 +1894,14 @@ case "(($ac_try" in
 esac
 eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
 $as_echo "$ac_try_echo"; } >&5
+  echo "cflags: $CFLAGS"
+  echo "cppflags: $CPPFLAGS"
+  echo "ldflags: $LDFLAGS"
+  echo "libs: $LIBS"
   (eval "$ac_link") 2>conftest.err
   ac_status=$?
   if test -s conftest.err; then
+    cat conftest.err
     grep -v '^ *+' conftest.err >conftest.er1
     cat conftest.er1 >&5
     mv -f conftest.er1 conftest.err
@@ -14091,7 +14096,7 @@ if test "$os_win32" = "no"; then
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for scandir" >&5
 $as_echo_n "checking for scandir... " >&6; }
 	fc_saved_CFLAGS="$CFLAGS"
-	CFLAGS="$CFLAGS $WARN_CFLAGS -Werror"
+	CFLAGS="$CFLAGS $WARN_CFLAGS"
 	cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
