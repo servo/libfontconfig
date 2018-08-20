@@ -61,12 +61,15 @@ $(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
 	cd $(OUT_DIR) && make -j$(NUM_JOBS)
 	cp $(OUT_DIR)/src/.libs/libfontconfig.a $(OUT_DIR)
 
+EXPAT_INCLUDE_DIR ?= $(DEP_EXPAT_OUTDIR)/include
+EXPAT_LIB_DIR ?= $(DEP_EXPAT_OUTDIR)/lib
+
 ifneq ($(HOST),$(TARGET))
 
-EXPAT_FLAGS = --with-expat-includes="$(DEP_EXPAT_OUTDIR)/include" \
-              --with-expat-lib="$(DEP_EXPAT_OUTDIR)/lib"
-FREETYPE_CFLAGS = -I$(DEP_FREETYPE_OUTDIR)/include/freetype2
-FREETYPE_LIBS = -L$(DEP_FREETYPE_OUTDIR)/lib -lfreetype
+EXPAT_FLAGS = --with-expat-includes="$(EXPAT_INCLUDE_DIR)" \
+              --with-expat-lib="$(EXPAT_LIB_DIR)"
+FREETYPE_CFLAGS ?= -I$(DEP_FREETYPE_OUTDIR)/include/freetype2
+FREETYPE_LIBS ?= -L$(DEP_FREETYPE_OUTDIR)/lib -lfreetype
 
 else
 
