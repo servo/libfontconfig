@@ -90,7 +90,8 @@ $(OUT_DIR)/Makefile:
 		--disable-docs \
 		--disable-shared \
 		$(EXPAT_FLAGS) \
-		$(strip $(CONFIGURE_FLAGS))
+		$(strip $(CONFIGURE_FLAGS)) &&
+		touch $(SRC_DIR)/src/fcobjshash.h
 
 else
 
