@@ -1,6 +1,6 @@
 [package]
 name = "servo-fontconfig-sys"
-version = "5.0.0"
+version = "5.0.1"
 authors = ["Keith Packard <keithp@keithp.com>", "Patrick Lam <plam@mit.edu>"]
 license = "MIT"
 description = "Font configuration and customization library"
