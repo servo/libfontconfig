@@ -4,16 +4,37 @@
 
 extern crate pkg_config;
 
-use std::process::Command;
 use std::env;
+use std::process::Command;
 
 fn main() {
     let target = env::var("TARGET").unwrap();
+
     if !target.contains("android") {
-        // If the system version of fontconfig isgat least 2.11.1, use it.
-        if let Ok(lib) = pkg_config::Config::new().atleast_version("2.11.1").find("fontconfig") {
-            println!("cargo:incdir={}", lib.include_paths[0].clone().into_os_string().into_string().unwrap());
-            return;
+        // If the system version of fontconfig is at least 2.11.1, use it.
+        #[allow(clippy::single_match)]
+        match pkg_config::Config::new()
+            .atleast_version("2.11.1")
+            .find("fontconfig")
+        {
+            Ok(lib) => {
+                println!(
+                    "cargo:incdir={}",
+                    lib.include_paths[0]
+                        .clone()
+                        .into_os_string()
+                        .into_string()
+                        .unwrap()
+                );
+
+                return;
+            }
+            #[cfg(feature = "force_system_lib")]
+            Err(error) => {
+                panic!("{}", error);
+            }
+            #[cfg(not(feature = "force_system_lib"))]
+            _ => (),
         }
     }
 
@@ -23,7 +44,18 @@ fn main() {
         .status()
         .unwrap()
         .success());
-    println!("cargo:rustc-link-search=native={}", env::var("OUT_DIR").unwrap());
+
+    println!(
+        "cargo:rustc-link-search=native={}",
+        env::var("OUT_DIR").unwrap()
+    );
     println!("cargo:rustc-link-lib=static=fontconfig");
-    println!("cargo:incdir={}", env::current_dir().unwrap().into_os_string().into_string().unwrap());
+    println!(
+        "cargo:incdir={}",
+        env::current_dir()
+            .unwrap()
+            .into_os_string()
+            .into_string()
+            .unwrap()
+    );
 }
