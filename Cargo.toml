@@ -17,8 +17,11 @@ path = "lib.rs"
 expat-sys = "2.1.0"
 freetype-sys = "0.13.0"
 
+[package.metadata.system-deps]
+fontconfig = "2.11"
+
 [build-dependencies]
-pkg-config = "0.3"
+system-deps = "3.1.2"
 
 [features]
 default = []

@@ -2,42 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-extern crate pkg_config;
-
 use std::env;
 use std::process::Command;
 
-fn main() {
-    let target = env::var("TARGET").unwrap();
-
-    if !target.contains("android") {
-        // If the system version of fontconfig is at least 2.11.1, use it.
-        #[allow(clippy::single_match)]
-        match pkg_config::Config::new()
-            .atleast_version("2.11.1")
-            .find("fontconfig")
-        {
-            Ok(lib) => {
-                println!(
-                    "cargo:incdir={}",
-                    lib.include_paths[0]
-                        .clone()
-                        .into_os_string()
-                        .into_string()
-                        .unwrap()
-                );
-
-                return;
-            }
-            #[cfg(feature = "force_system_lib")]
-            Err(error) => {
-                panic!("{}", error);
-            }
-            #[cfg(not(feature = "force_system_lib"))]
-            _ => (),
-        }
-    }
-
+fn build_fontconfig() {
     assert!(Command::new("make")
         .env("MAKEFLAGS", env::var("CARGO_MAKEFLAGS").unwrap_or_default())
         .args(&["-R", "-f", "makefile.cargo"])
@@ -58,4 +26,36 @@ fn main() {
             .into_string()
             .unwrap()
     );
+}
+
+fn main() {
+    let target = env::var("TARGET").unwrap();
+
+    if !target.contains("android") {
+        match system_deps::Config::new().probe() {
+            Ok(libs) => {
+                let libs = libs.get_by_name("fontconfig").unwrap();
+
+                println!("cargo:rustc-link-lib=static=fontconfig");
+                println!(
+                    "cargo:incdir={}",
+                    libs.include_paths[0]
+                        .clone()
+                        .into_os_string()
+                        .into_string()
+                        .unwrap()
+                );
+            }
+            Err(error) => {
+                if cfg!(feature = "force_system_lib") {
+                    panic!("{}", error.to_string());
+                } else {
+                    eprintln!("{}", error.to_string());
+                    build_fontconfig();
+                }
+            }
+        }
+    } else {
+        build_fontconfig();
+    }
 }
