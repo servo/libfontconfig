@@ -3,6 +3,8 @@
                             Version 2.11.1
                               2014-03-24
 
+**NOTE:** This crate has been archived and is longer actively
+maintained by the Servo project.
 
 Check INSTALL for compilation and installation instructions.
 Report bugs to https://bugs.freedesktop.org in the fontconfig module.
