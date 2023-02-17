@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  RUSTFLAGS: -Cdebuginfo=0
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  RUST_BACKTRACE: 1
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.toolchain == 'nightly' }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+        toolchain: [stable, 1.60.0]
+    steps:
+      - uses: actions/checkout@v2
+
+      # install the toolchain we are going to compile and test with
+      - name: install ${{ matrix.toolchain }} toolchain
+        id: install_toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          profile: minimal
+          override: true
+
+      # we want to install the latest nightly with clippy and rustfmt to run checks against stable
+      - name: install nightly toolchain
+        id: install_nightly_toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: minimal
+          components: clippy, rustfmt
+        if: matrix.toolchain == 'stable' && matrix.os == 'ubuntu-latest'
+
+      # run rustfmt and clippy checks, but only once
+      - run: cargo +nightly fmt --all -- --check
+        if: matrix.toolchain == 'stable' && matrix.os == 'ubuntu-latest'
+
+      #- run: cargo +nightly clippy -Z unstable-options --workspace --all-targets --all-features
+      #  if: matrix.toolchain == 'stable' && matrix.os == 'ubuntu-latest'
+
+      # run tests
+      - run: cargo test --verbose

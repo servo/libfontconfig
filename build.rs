@@ -40,7 +40,7 @@ fn main() {
 
     assert!(Command::new("make")
         .env("MAKEFLAGS", env::var("CARGO_MAKEFLAGS").unwrap_or_default())
-        .args(&["-R", "-f", "makefile.cargo"])
+        .args(["-R", "-f", "makefile.cargo"])
         .status()
         .unwrap()
         .success());
