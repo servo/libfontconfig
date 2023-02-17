@@ -61,30 +61,43 @@ $(OUT_DIR)/libfontconfig.a: $(OUT_DIR)/Makefile
 	cd $(OUT_DIR) && make -j$(NUM_JOBS)
 	cp $(OUT_DIR)/src/.libs/libfontconfig.a $(OUT_DIR)
 
+ifdef DEP_EXPAT_OUTDIR
+
 EXPAT_INCLUDE_DIR ?= $(DEP_EXPAT_OUTDIR)/include
 EXPAT_LIB_DIR ?= $(DEP_EXPAT_OUTDIR)/lib
 
-ifneq ($(HOST),$(TARGET))
+endif
+
+ifdef EXPAT_INCLUDE_DIR
+ifdef EXPAT_LIB_DIR
 
 EXPAT_FLAGS = --with-expat-includes="$(EXPAT_INCLUDE_DIR)" \
               --with-expat-lib="$(EXPAT_LIB_DIR)"
+
+endif
+endif
+
+ifdef DEP_FREETYPE_OUTDIR
+
 FREETYPE_CFLAGS ?= -I$(DEP_FREETYPE_OUTDIR)/include/freetype2
 FREETYPE_LIBS ?= -L$(DEP_FREETYPE_OUTDIR)/lib -lfreetype
 
-else
+endif
 
-EXPAT_FLAGS =
-FREETYPE_CFLAGS =
-FREETYPE_LIBS =
+ifdef FREETYPE_CFLAGS
+ifdef FREETYPE_LIBS
 
+FREETYPE_FLAGS = FREETYPE_CFLAGS="$(FREETYPE_CFLAGS)" \
+		 FREETYPE_LIBS="$(FREETYPE_LIBS)"
+
+endif
 endif
 
 $(OUT_DIR)/Makefile:
 	cd $(OUT_DIR) && \
 		CC="$(CC)" \
 		AR="$(AR)" \
-		FREETYPE_CFLAGS="$(FREETYPE_CFLAGS)" \
-		FREETYPE_LIBS="$(FREETYPE_LIBS)" \
+		$(FREETYPE_FLAGS) \
 		CFLAGS="$(CFLAGS)" \
 		$(SRC_DIR)/configure \
 		--disable-docs \
